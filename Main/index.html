@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app="employeeApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Employee Directory</title>
+  <!-- Bootstrap & Icons -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <!-- AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="EmployeeController">
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4 text-primary">🌟 Employee Directory 🌟</h2>
+
+  <!-- Search & Sort -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control shadow" ng-model="searchText" placeholder="🔍 Search employees by name">
+    </div>
+    <div class="col-md-6 text-right">
+      <button class="btn btn-outline-primary shadow" ng-click="sortBy('department')">
+        Sort by Department
+        <i class="fas" ng-class="sortReverse ? 'fa-sort-alpha-up' : 'fa-sort-alpha-down'"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- No Match Alert -->
+  <div class="alert alert-warning text-center" ng-show="(employees | filter:{name: searchText}).length === 0">
+    No employees found matching "<strong>{{searchText}}</strong>"
+  </div>
+
+  <!-- Employee Cards -->
+  <div class="row">
+    <div class="col-lg-4 col-md-6 mb-4" ng-repeat="emp in employees | filter:{name: searchText} | orderBy:sortKey:sortReverse">
+      <div class="card employee-card shadow h-100 animated-card" ng-class="{'manager-highlight': emp.isManager}">
+        <div class="card-body">
+          <h5 class="card-title text-dark">
+            <i class="fas fa-user-circle mr-2"></i>{{ emp.name }}
+          </h5>
+          <p class="card-text"><strong>📁 Department:</strong> {{ emp.department }}</p>
+          <p class="card-text"><strong>📞 Contact:</strong> {{ emp.contact }}</p>
+          <span class="badge badge-info" ng-if="emp.isManager"><i class="fas fa-star mr-1"></i> Manager</span>
+          <button class="btn btn-sm btn-outline-secondary mt-2" ng-click="openModal(emp)" data-toggle="modal" data-target="#profileModal">
+            View Profile
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="profileModalLabel">{{ selectedEmployee.name }}'s Profile</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> {{ selectedEmployee.name }}</p>
+        <p><strong>Department:</strong> {{ selectedEmployee.department }}</p>
+        <p><strong>Contact:</strong> {{ selectedEmployee.contact }}</p>
+        <p><strong>Role:</strong>
+          <span class="text-info" ng-if="selectedEmployee.isManager">Manager</span>
+          <span ng-if="!selectedEmployee.isManager">Staff</span>
+        </p>
+        <hr>
+        <p><em>This is a detailed view of the employee. You can enhance this modal to include performance reports, tasks, or images.</em></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="app.js"></script>
+<!-- Bootstrap JS (for modal) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+
