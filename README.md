@@ -23,13 +23,10 @@ This application allows users to search, sort, and view detailed employee profil
 ---
 
 ## 📂 Project Structure
-.
+
 ├── index.html # Main HTML page with AngularJS integration
-
 ├── style.css # Custom styling for employee cards and UI
-
 ├── app.js # AngularJS app logic and data handling
-
 └── images/ # (Optional) Employee images or assets
 
 ---
@@ -41,7 +38,7 @@ This application allows users to search, sort, and view detailed employee profil
 
 2.**Navigate to the project folder**
 
-cd ```<repo-name>```
+cd ```Employee-Directory```
 
 3. **Open index.html in your browser**
 
